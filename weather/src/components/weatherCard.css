@@ -1,0 +1,13 @@
+.my-weather-card {
+	width: 320px ;
+}
+
+.my-weather-card-image {
+	width: 280px;
+	margin-top: 16px;
+	border: 1px solid black;
+}
+
+.my-weather-card-description {
+	font-weight: 600;
+}
