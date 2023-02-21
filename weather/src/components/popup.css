@@ -1,0 +1,7 @@
+.my-popup {
+	position: absolute;
+	width: 240px;
+	height:192px;
+	background-color: white;
+	border:1px solid black;
+}
