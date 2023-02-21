@@ -1,7 +1,7 @@
 .my-popup {
 	position: absolute;
-	width: 240px;
-	height:192px;
+	width: 100%;
 	background-color: white;
 	border:1px solid black;
+	padding: 4px ;
 }

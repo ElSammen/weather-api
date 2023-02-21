@@ -16,26 +16,34 @@ export default class WeatherStats {
 					feels_like: periodEntry.main.feels_like,
 					humidity: periodEntry.main.humidity,
 					wind_speed: periodEntry.wind.speed,
+					wind_gust: periodEntry.wind.gust,
+					wind_degs: periodEntry.wind.deg,
+					visibility: periodEntry.visibility,
+					precipitation_prob: periodEntry.pop,
 					description: periodEntry.weather[0].description, // (only get first one here)
-					iconUrl: "http://openweathermap.org/img/w/" + periodEntry.weather[0].icon + ".png" // (only get first one here)
+					icon_url: "http://openweathermap.org/img/wn/" + periodEntry.weather[0].icon + "@2x.png" // (only get first one here)
 				}
 			) ;
 		}
 		return newData ;
 	}
 
+	// Get data and statistics for the given (approximate) time period
 	getDataForPeriod(tsStart, tsEnd) {
-		const {startPeriodIndex, endPeriodIndex} = this._findNearestStartAndEndPeriodByTime(tsStart, tsEnd) ;
-		return this._calcStats(startPeriodIndex, endPeriodIndex) ;
+		const {startPeriodIndex, endPeriodIndex} = this._findNearestStartAndEndPeriod(tsStart, tsEnd) ;
+		return this.calcStats(startPeriodIndex, endPeriodIndex) ;
 	}
 
 	// TODO: Test this function properly
-	_findNearestStartAndEndPeriodByTime(tsStart, tsEnd) {
+	_findNearestStartAndEndPeriod(tsStart, tsEnd) {
 		const list = this.data ;
 		let startPeriodIndex = null, endPeriodIndex = null ;
 
 		// Return nulls if period is completely outside the range of the available data
-		if (tsEnd <= list[0].dt || tsStart >= list[list.length - 1].dt + this.entryTimePeriod) return {startPeriodIndex, endPeriodIndex} ;
+		if (tsEnd <= list[0].dt || 
+			tsStart >= list[list.length - 1].dt + this.entryTimePeriod) {
+			return {startPeriodIndex, endPeriodIndex} ;
+		}
 
 		// Find nearest start period
 		let i = 0 ;
@@ -59,13 +67,17 @@ export default class WeatherStats {
 		return {startPeriodIndex, endPeriodIndex} ;
 	}
 	
-	_calcStats(startPeriodIndex, endPeriodIndex) {
+	// Calculate statistics over the specified data periods
+	calcStats(startPeriodIndex, endPeriodIndex) {
 		const periods = this.data.slice(startPeriodIndex, endPeriodIndex + 1) ;
 
-		const calcMinList = ['temp_min', 'humidity', 'feels_like', 'humidity', 'wind_speed'] ;
-		const calcMaxList = ['temp_max', 'humidity', 'feels_like', 'humidity', 'wind_speed'] ;
-		const calcAvgList = ['temp', 'humidity', 'feels_like', 'humidity', 'wind_speed'] ;
+		// List of metrics to calculate
+		const calcMinList = ['temp_min', 'feels_like', 'humidity', 'wind_speed', 'visibility'] ;
+		const calcMaxList = ['temp_max', 'feels_like', 'humidity', 'wind_speed', 'wind_gust'] ;
+		const calcArithmeticMeanList = ['temp', 'feels_like', 'humidity', 'wind_speed'] ;
+		const calcCircularMeanList = ['wind_degs'] ;
 
+		// Initialise stat values
 		const minValues = {} ;
 		calcMinList.forEach(fieldName => {
 			minValues[fieldName] = +Infinity ;
@@ -75,10 +87,15 @@ export default class WeatherStats {
 			maxValues[fieldName] = -Infinity ;
 		}) ;
 		const meanValues = {} ;
-		calcAvgList.forEach(fieldName => {
+		calcArithmeticMeanList.forEach(fieldName => {
 			meanValues[fieldName] = 0 ;
 		}) ;
+		const circularMeanValues = {} ;
+		calcCircularMeanList.forEach(fieldName => {
+			circularMeanValues[fieldName] = {x: 0, y: 0} ;
+		}) ;
 
+		// Calculate min/max values, totals for arithmetic means, and cartesian coordinates for circular means
 		for (const period of periods) {
 			for (const fieldName of calcMinList) {
 				minValues[fieldName] = Math.min(minValues[fieldName], period[fieldName]) ;
@@ -86,17 +103,27 @@ export default class WeatherStats {
 			for (const fieldName of calcMaxList) {
 				maxValues[fieldName] = Math.max(maxValues[fieldName], period[fieldName]) ;
 			}
-			for (const fieldName of calcAvgList) {
-				meanValues[fieldName] = meanValues[fieldName] + period[fieldName] ;
+			for (const fieldName of calcArithmeticMeanList) {
+				meanValues[fieldName] += period[fieldName] ;
+			}
+			for (const fieldName of calcCircularMeanList) {
+				const angleRads = period[fieldName] * (Math.PI / 180) ;
+				circularMeanValues[fieldName].x += Math.cos(angleRads) ;
+				circularMeanValues[fieldName].y += Math.sin(angleRads) ;
 			}
 		}
 
 		// Convert totals to means
-		for (const fieldName of calcAvgList) {
-			meanValues[fieldName] = meanValues[fieldName] / periods.length ;
+		for (const fieldName of calcArithmeticMeanList) {
+			meanValues[fieldName] /= periods.length ;
 		}
-		
-		return { periods, stats: {minValues, maxValues, meanValues} } ;
+		for (const fieldName of calcCircularMeanList) {
+			let a2Result = Math.atan2(circularMeanValues[fieldName].y, circularMeanValues[fieldName].x) ;
+			if (a2Result < 0) a2Result += Math.PI * 2 ;
+			circularMeanValues[fieldName] = a2Result / Math.PI * 180 ;
+		}
+
+		return { periods, stats: {minValues, maxValues, meanValues, circularMeanValues} } ;
 	}
 
 	getDailyData() {
@@ -107,8 +134,10 @@ export default class WeatherStats {
 		for (const [i, period] of this.data.entries()) {
 			const date = new Date(parseInt(period.dt) * 1000) ;
     	const dayOfMonth = date.getDate() ; // (one-indexed!)
+
+			// Calculate stats for every period after a date transition (and on reaching the last period)
 			if (dayOfMonth !== oldDayOfMonth || i === this.data.length - 1) {
-				dailyStats.push(this._calcStats(startPeriodIndex, (i === this.data.length - 1) ? i  : i - 1)) ;
+				dailyStats.push(this.calcStats(startPeriodIndex, (i === this.data.length - 1) ? i  : i - 1)) ;
 
 				oldDayOfMonth = dayOfMonth ;
 				startPeriodIndex = i ;
