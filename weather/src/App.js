@@ -8,6 +8,7 @@ import { Container } from 'react-bootstrap';
 export default function App() {
 	const weatherStats = new WeatherStats(testData) ;
 	const dailyData = weatherStats.getDailyData() ;
+	console.log(dailyData) ;
 
   return (
     <div className="App">

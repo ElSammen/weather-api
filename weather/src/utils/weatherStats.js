@@ -20,6 +20,8 @@ export default class WeatherStats {
 					wind_degs: periodEntry.wind.deg,
 					visibility: periodEntry.visibility,
 					precipitation_prob: periodEntry.pop,
+					weatherParams: periodEntry.weather[0].main,  // (only get first one here)
+					cloudiness: periodEntry.clouds.all,
 					description: periodEntry.weather[0].description, // (only get first one here)
 					icon_url: "http://openweathermap.org/img/wn/" + periodEntry.weather[0].icon + "@2x.png" // (only get first one here)
 				}
@@ -75,7 +77,7 @@ export default class WeatherStats {
 		const calcMinList = ['temp_min', 'feels_like', 'humidity', 'wind_speed', 'visibility'] ;
 		const calcMaxList = ['temp_max', 'feels_like', 'humidity', 'wind_speed', 'wind_gust'] ;
 		const calcModeList = ['icon_url', 'description'] ;
-		const calcArithmeticMeanList = ['temp', 'feels_like', 'humidity', 'wind_speed'] ;
+		const calcArithmeticMeanList = ['temp', 'feels_like', 'humidity', 'wind_speed', 'cloudiness'] ;
 		const calcCircularMeanList = ['wind_degs'] ;
 
 		// Initialise stat values
