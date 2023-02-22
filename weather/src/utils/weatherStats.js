@@ -74,6 +74,7 @@ export default class WeatherStats {
 		// List of metrics to calculate
 		const calcMinList = ['temp_min', 'feels_like', 'humidity', 'wind_speed', 'visibility'] ;
 		const calcMaxList = ['temp_max', 'feels_like', 'humidity', 'wind_speed', 'wind_gust'] ;
+		const calcModeList = ['icon_url', 'description'] ;
 		const calcArithmeticMeanList = ['temp', 'feels_like', 'humidity', 'wind_speed'] ;
 		const calcCircularMeanList = ['wind_degs'] ;
 
@@ -88,20 +89,30 @@ export default class WeatherStats {
 		}) ;
 		const meanValues = {} ;
 		calcArithmeticMeanList.forEach(fieldName => {
-			meanValues[fieldName] = 0 ;
+			meanValues[fieldName] = 0 ; // (init with zero total)
+		}) ;
+		const modeValues = {} ;
+		calcModeList.forEach(fieldName => {
+			modeValues[fieldName] = {} ; // (init with empty object to store counts)
 		}) ;
 		const circularMeanValues = {} ;
 		calcCircularMeanList.forEach(fieldName => {
-			circularMeanValues[fieldName] = {x: 0, y: 0} ;
+			circularMeanValues[fieldName] = {x: 0, y: 0} ; // (init with zero vector)
 		}) ;
 
-		// Calculate min/max values, totals for arithmetic means, and cartesian coordinates for circular means
+		// Calculate min/max values, totals for modes and arithmetic means, and cartesian coordinates for circular means
 		for (const period of periods) {
 			for (const fieldName of calcMinList) {
 				minValues[fieldName] = Math.min(minValues[fieldName], period[fieldName]) ;
 			}
 			for (const fieldName of calcMaxList) {
 				maxValues[fieldName] = Math.max(maxValues[fieldName], period[fieldName]) ;
+			}
+			for (const fieldName of calcModeList) {
+				if (!modeValues[fieldName]) modeValues[fieldName] = {[period[fieldName]]: 1}
+				else if (!modeValues[fieldName][period[fieldName]]) modeValues[fieldName][period[fieldName]] = 1 ;
+				else modeValues[fieldName][period[fieldName]]++ ;
+
 			}
 			for (const fieldName of calcArithmeticMeanList) {
 				meanValues[fieldName] += period[fieldName] ;
@@ -123,7 +134,20 @@ export default class WeatherStats {
 			circularMeanValues[fieldName] = a2Result / Math.PI * 180 ;
 		}
 
-		return { periods, stats: {minValues, maxValues, meanValues, circularMeanValues} } ;
+		// Get modes
+		for (const fieldName of calcModeList) {
+			let maxCount = -Infinity ;
+			let mode ;
+			for (const [value, count] of Object.entries(modeValues[fieldName])) {
+				if (count > maxCount) {
+					maxCount = count ;
+					mode = value ;
+				}
+			}
+			modeValues[fieldName] = mode ;
+		}
+
+		return { periods, stats: {minValues, maxValues, meanValues, modeValues, circularMeanValues} } ;
 	}
 
 	getDailyData() {
