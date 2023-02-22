@@ -1,13 +1,17 @@
 .my-weather-card {
-	width: 320px ;
+	width: 260px ;
 }
 
 .my-weather-card-image {
-	width: 280px;
 	margin-top: 16px;
-	border: 1px solid black;
+	border: 3px outset #eee;
 }
 
 .my-weather-card-description {
+	font-weight: 600;
+	margin-top: 64px;
+}
+
+.my-emphasised-details {
 	font-weight: 600;
 }
