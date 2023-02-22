@@ -45,7 +45,7 @@ export default function SummaryData({data}) {
 			<Popup coords={coords} onMouseLeave={removePopup}>
 				<h2>Details</h2>
 				<div className={emphasisedDetails === 't' ? 'my-emphasised-details' : ''}>
-					<div>Average temperature: {data.meanValues.temp}<sup>o</sup>C</div>
+					<div>Avg temperature: {data.meanValues.temp}<sup>o</sup>C</div>
 					<div>Min feels like: {data.minValues.feels_like}<sup>o</sup>C</div>
 					<div>Max feels like: {data.maxValues.feels_like}<sup>o</sup>C</div>
 				</div>
@@ -55,7 +55,7 @@ export default function SummaryData({data}) {
 				</div>
 				<div className={emphasisedDetails === 'w' ? 'my-emphasised-details' : ''}>
 					<div>Max wind gust: {data.maxValues.wind_gust} m/s</div>
-					<div>Average wind direction: {data.circularMeanValues.wind_degs}<sup>o</sup></div>
+					<div>Avg wind direction: {data.circularMeanValues.wind_degs}<sup>o</sup></div>
 				</div>
 				<div>
 					<div>Min visibility: {minVisibility}{minVisibilityUnits}</div>

@@ -1,10 +1,19 @@
 .my-weather-card {
-	width: 260px ;
+	flex-grow: 1 ;
+	flex-basis: 180px;
+	max-width: 240px;
+ 	background: rgb(255,255,255);
+	background: linear-gradient(140deg, rgba(253,253,253,1) 0%, rgba(252,252,252,1) 15%, rgba(241,241,241,1) 80%, rgba(226,226,226,1) 100%); 
+	box-shadow: 10px 10px 17px -6px rgba(0,0,0,0.75);
+}
+.my-weather-card:hover {
+	transform: scale(1.05) ;
 }
 
 .my-weather-card-image {
 	margin-top: 16px;
 	border: 3px outset #eee;
+	background-color: white;
 }
 
 .my-weather-card-description {
