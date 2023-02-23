@@ -4,11 +4,18 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // ("npm install" to add bootstra
 import testData from './testdata' ;
 import WeatherStats from './utils/weatherStats' ;
 import { Container } from 'react-bootstrap';
+import SoundManager from './utils/soundManager';
+import { useState } from 'react';
+import soundList from './data/soundList.json' ;
 
 export default function App() {
+	const [id, changeId] = useState('') ;
 	const weatherStats = new WeatherStats(testData) ;
 	const dailyData = weatherStats.getDailyData() ;
-	console.log(dailyData) ;
+
+	function playSound(val) {
+		changeId(val) ;
+	}
 
   return (
     <div className="App">
@@ -18,8 +25,10 @@ export default function App() {
 				</div>
 			</header>
 			<Container fluid="xxl">
-				<WeatherCards data={dailyData}/>
+				<WeatherCards data={dailyData} playSound={playSound} />
 			</Container>
+
+			<SoundManager soundList={soundList} id={id} />
     </div>
   );
 }
