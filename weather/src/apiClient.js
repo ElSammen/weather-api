@@ -1,27 +1,21 @@
-import axios from 'axios'
+import axios from 'axios' ;
 
 export class ApiClient {
+	constructor(location) {
+		this.getWeatherUrl = null ;
+		if (location) this.setWeatherLocation(location) ;
+	}
 
-  status(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return Promise.resolve(response)
-    } else {
-      return Promise.reject(new Error(response.statusText))
-    }
-  }
+	setWeatherLocation(location) {
+		this.getWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=06af2c84a95e6a736fd7bab4b3be279d` ;
+	}
 
   getWeather() {
-    return this.getRequest("https://api.openweathermap.org/data/2.5/onecall?lat=//LAT HERE&lon//LON HERE9&exclude=hourly,minutely&units=metric&appid=92df7fba14ff930ab5c7e513de45c046")
+    return this.request(this.getWeatherUrl) ;
   }
 
-  getRequest(url) {
-    return axios.get(url)
-      .then(this.status)
-      .catch(function (error) {
-        // handle error
-        console.error(error);
-        alert(error)
-      })
+  request(url) {
+		console.log(url) ;
+    return axios.get(url) ;
   }
-
 }

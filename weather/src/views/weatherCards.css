@@ -3,3 +3,7 @@
 	gap: 32px ;
 	flex-wrap: wrap;
 }
+.my-weather-cards * {
+	color: #222 ;
+	font-size: 100%;
+}
