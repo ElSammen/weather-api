@@ -5,3 +5,7 @@
 	border:2px solid blue;
 	padding: 8px ;
 }
+
+.my-popup div {
+	font-size:90% !important;
+}

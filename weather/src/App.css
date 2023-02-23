@@ -1,9 +1,56 @@
 .header {
 	height: 64px;
 	background-color: blue;
-	margin-bottom: 64px;
 	color: #eee ;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.App {
+  color:rgb(255, 255, 255);
+}
+
+.App .search {
+  text-align: left;
+  padding: 1rem;
+}
+
+input {
+  text-align: center;
+}
+
+p {
+  color: rgb(255, 255, 255);
+  font-size: 32px;
+  font-weight: 600;
+}
+
+h1 {
+  color: rgb(254, 254, 254);
+}
+
+thead {
+  color: rgb(254, 254, 254);
+  font-size: 12px;
+}
+
+tbody {
+  color: rgb(254, 254, 254);
+}
+
+.cloudImg {
+  width: 64px;
+  height: 64px;
 }

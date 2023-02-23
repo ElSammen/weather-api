@@ -1,4 +1,4 @@
-import WeatherCard from './weatherCard';
+import WeatherCard from '../components/weatherCard';
 import './weatherCards.css' ;
 
 export default function WeatherCards({data, playSound}) {

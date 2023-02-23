@@ -1,0 +1,11 @@
+.navbar {
+	padding-left: 8px ;
+	padding-right: 8px ;
+	margin-bottom: 32px;
+	color: black;
+}
+.nav-link {
+	color: #333 ;
+	font-weight: 600;
+	font-size: 120%;
+}
