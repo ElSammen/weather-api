@@ -4,7 +4,7 @@ import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-k
 export default function MyFooter() {
     return (
       <MDBFooter bgColor='dark' className='text-center text-lg-start text-muted'>
-        <section className='d-flex justify-content-center justify-content-lg-between h6-4 border-bottom'>
+        <section className='d-flex justify-content-center justify-content-lg-between h6-4 border-bottom mt-5'>
           <div className='me-5 d-none d-lg-block'>
             <span>Get connected with us on social networks:</span>
           </div>
@@ -84,12 +84,7 @@ export default function MyFooter() {
                 </h6>
                 <h6>
                   <a href='#!' className='text-reset'>
-                    Other Things
-                  </a>
-                </h6>
-                <h6>
-                  <a href='#!' className='text-reset'>
-                    Other Things
+                    Recharts
                   </a>
                 </h6>
               </MDBCol>
@@ -110,17 +105,7 @@ export default function MyFooter() {
                   <a href='https://freesound.org/people/TJ%20Mothy/' className='text-reset'>
                     TJMothy
                   </a>
-                </h6>
-                <h6>
-                  <a href='#!' className='text-reset'>
-                    ??????
-                  </a>
-                </h6>
-                  <h6>
-                  <a href='#!' className='text-reset'>
-                    ??????
-                  </a>
-                </h6>
+                </h6>                
               </MDBCol>
   
               <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>

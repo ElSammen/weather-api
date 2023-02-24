@@ -53,7 +53,7 @@ export default function App() {
 				</div>
 				<MyNavbar />
 			</header>
-			<Container fluid="xxl">
+			<Container fluid>
 				<main>
 
 					<div className='d-flex justify-content-center'>
