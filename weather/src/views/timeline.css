@@ -1,0 +1,51 @@
+.bottomBox {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.timeTable {
+    min-width: 1150px;
+    margin: auto;
+}
+
+
+
+.heading {
+margin-bottom: 1.2rem;
+}
+
+.chart {
+    /* background-color: rgb(255, 255, 255); */
+    color: #0000;
+    margin-left: auto;
+  }
+  
+  .bottom{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .fillHow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0.5rem;
+    color:rgb(255, 255, 255)
+  }
+
+  .recharts-cartesian-axis-ticks text{
+   
+    fill:rgb(255, 255, 255) !important;
+  }
+
+  .sideText {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input[type="radio"] {
+    border: 0;
+    width: 100%;
+    height: 1.2em;
+  }
