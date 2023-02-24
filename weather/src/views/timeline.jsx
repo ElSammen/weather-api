@@ -88,7 +88,7 @@ export default function Timeline({ data }) {
     const tempArr = [];
     for (let i = startPeriodIndex; i < endPeriodIndex; i++) {
       const code = data.list[i].weather[0].icon
-      const codeWithUrl = "/assets/icons/animated/" + code + ".svg";
+      const codeWithUrl = "assets/icons/animated/" + code + ".svg";
       const images = <img src={codeWithUrl} alt="" className="cloudImg" />
       tempArr.push(images)
     }
