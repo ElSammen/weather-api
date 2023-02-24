@@ -6,7 +6,7 @@ import WeatherCardSummary from './weatherCardSummary';
 import './weatherCard.css' ;
 import { roundObjValues } from '../utils/maths' ;
 
-export default function WeatherCard({data, playSound}) {
+export default function WeatherCard({data, playSound, onClick}) {
 
 	  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] ;
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] ;
@@ -30,7 +30,8 @@ export default function WeatherCard({data, playSound}) {
   return (
     <Card
 			onMouseEnter={() => playSound(data.stats.modeValues.description)} 
-			onMouseLeave={() => playSound(null)} className="text-center my-weather-card">
+			onMouseLeave={() => playSound(null)} className="text-center my-weather-card"
+			onClick={onClick}>
       <Card.Header as="h5">{nameDay}{"-"}{date}{"-"}{month}</Card.Header>
 			<Image className="mx-auto my-weather-card-image"
 				src={imageUrl}

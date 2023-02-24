@@ -11,7 +11,7 @@ export default function MyNavbar() {
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav>
 						<Link className="nav-link" to="/days">Days</Link>
-						<Link className="nav-link" to="/timeline">Timeline</Link>
+						<Link className="nav-link" to="/timeline/0">Timeline</Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

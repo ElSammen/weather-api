@@ -4,7 +4,6 @@ import { Form } from "react-bootstrap";
 export default function ToggleInput({setValueExternal}) {
 
   const handleToggle = (event) => {
-		console.log(event.target.checked);
     setValueExternal(event.target.checked) ;   
   }
 
