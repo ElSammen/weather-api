@@ -10,12 +10,14 @@ import soundList from './data/soundList.json' ;
 import Timeline from './views/timeline.jsx';
 import { ApiClient } from './apiClient';
 import MyNavbar from './components/navbar';
-import LocationInput from './components/locationInput';
+import SoundToggleInput from './components/toggleInput';
+import LocationInput from './components/textInput';
 
 export default function App() {
 	const [data, changeData] = useState(null) ; // Raw weather data
 	const [dailyData, changeDailyData] = useState(null) ; // Processed data
-	const [id, changeId] = useState('') ; // Current sound effect
+	const [soundId, changeSoundId] = useState('') ; // Current sound effect
+	const [soundEnabled, changeSoundEnabled] = useState(false) ; // Current sound effect
 
 	// Initialisation
 	useEffect(() => {
@@ -31,7 +33,7 @@ export default function App() {
 	}
 
 	function playSound(val) {
-		changeId(val) ;
+		changeSoundId(val) ;
 	}
 
 	return (
@@ -46,7 +48,11 @@ export default function App() {
 				<main>
 
 					<div className='d-flex justify-content-center'>
-						<LocationInput setLocation={getDataForLocation} />
+						<SoundToggleInput setValueExternal={changeSoundEnabled} />
+					</div>
+
+					<div className='d-flex justify-content-center'>
+						<LocationInput setValueExternal={getDataForLocation} />
 					</div>
 
 					<Routes>				
@@ -68,7 +74,14 @@ export default function App() {
 				</main>
 			</Container>
 
-			<SoundManager soundList={soundList} id={id} />
-    </div>
+			<SoundManager soundList={soundList} soundId={soundId} soundEnabled={soundEnabled} />
+    
+			<footer className="footer text-end p-2 text-secondary">
+				Credits<br />
+				<a href="https://freesound.org/people/abcopen/">abcopen</a> (audio sample)<br />
+				<a href="https://freesound.org/people/TheGloomWorker/">TheGloomWorker</a> (audio sample)<br />
+				<a href="https://freesound.org/people/TJ%20Mothy/">TJ Mothy</a>  (audio sample)<br />
+			</footer>
+		</div>
   );
 }

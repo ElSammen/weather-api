@@ -1,5 +1,23 @@
 {
 	"light rain": {
 		"filename": "476202__thegloomworker__rain-drips.mp3", "isLooped": true
+	},
+	"moderate rain": {
+		"filename": "476202__thegloomworker__rain-drips.mp3", "isLooped": true
+	},
+	"overcast clouds": {
+		"filename": "92734__tj-mothy__slow-sad-tones.wav", "isLooped": true
+	},
+	"scattered clouds": {
+		"filename": "92734__tj-mothy__slow-sad-tones.wav", "isLooped": true
+	},
+	"broken clouds": {
+		"filename": "92734__tj-mothy__slow-sad-tones.wav", "isLooped": true
+	},
+	"few clouds": {
+		"filename": "92734__tj-mothy__slow-sad-tones.wav", "isLooped": true
+	},
+	"clear sky": {
+		"filename": "166218__abcopen__whip-birds.ogg", "isLooped": true
 	}
 }

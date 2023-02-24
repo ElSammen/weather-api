@@ -61,7 +61,7 @@ export default function SummaryData({data}) {
 					<div>Min visibility: {minVisibility}{minVisibilityUnits}</div>
 				</div>
 				<div>
-					<div>Avg cloudiness: {data.maxValues.cloudiness}%</div>
+					<div>Avg cloudiness: {data.meanValues.cloudiness}%</div>
 				</div>
 			</Popup>
 		</>
