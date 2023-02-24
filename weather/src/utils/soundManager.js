@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react' ;
+import { useState, useEffect, useRef } from 'react' ;
 import useSound from 'use-sound';
 
 export default function SoundManager(props) {
 	const [sounds, changeSounds] = useState({}) ;
-	const [stopSound, changeStopSound] = useState(null) ;
+	let prevStop = useRef(null) ;
+	let prevSound = useRef(null) ;
 	const opts = {
-		interrupt: true,
-		loop: sounds[props.id] ? sounds[props.id].isLooped : false
+		loop: sounds[props.soundId] ? sounds[props.soundId].isLooped : false,
+		soundEnabled: props.soundEnabled
 	} ;
-	const [play, {stop, sound}] = useSound('assets/sounds/' + (sounds[props.id] ? sounds[props.id].filename : 'empty.wav'), opts) ;
-	if (play) play() ;
-	if (sound) sound.fade(0.25, 1, 300);
+	const [play, {stop, sound}] = useSound('assets/sounds/' + (sounds[props.soundId] ? sounds[props.soundId].filename : 'empty.wav'), opts) ;
 
 	// Initialisation
 	useEffect(() => {
@@ -19,11 +18,17 @@ export default function SoundManager(props) {
 		}
 	}, [props.soundList]) ;
 
-	// Stop sound every time the sound effect changes
+	// Do fades in/out every time the sound effect changes
 	useEffect(() => {
-		changeStopSound(stop) ;
-		if (stopSound) stopSound() ;
-	}) ;
+		if (prevSound.current) prevSound.current.fade(1, 0, 800); // (fade out old)
+		const prevStopValue = prevStop.current ; // (preserve old stop function for setInterval())
+		if (prevStop.current) setInterval(prevStopValue, 1000) ; // (stop after 1 second in-case the fade leaves it running silent)
+		play() ; // (start new sound)
+		if (sound) sound.fade(0.2, 1, 800); // (fade in new)
+		prevStop.current = stop ;
+		prevSound.current = sound ;
 
-	return null ;
+	}, [play]) ;
+
+	return null ; // (nothing to render!)
 }

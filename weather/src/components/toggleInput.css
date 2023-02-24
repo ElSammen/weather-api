@@ -1,0 +1,8 @@
+.toggle-input {
+	margin-bottom: 32px ;
+	color: black;
+	background: white ;
+	padding: 4px;
+	border: 1px solid #999;
+	user-select: none;
+}
