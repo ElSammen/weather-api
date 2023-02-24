@@ -29,7 +29,7 @@ export default function SummaryData({data}) {
 			<Table striped bordered size="sm">
 				<thead>
 					<tr>
-						<th title="temperature range" colSpan="2" onMouseMove={() => activatePopup('t')}><sup>o</sup>C</th>
+						<th title="temperature range" colSpan="2" onMouseMove={() => activatePopup('t')}><sup>o</sup>C min/max</th>
 						<th title="wind speed" onMouseMove={() => activatePopup('w')}>W</th>
 					</tr>
 				</thead>
@@ -37,13 +37,13 @@ export default function SummaryData({data}) {
 					<tr>
 						<td title="min temperature">{data.minValues.temp_min}</td>
 						<td title="max temperature">{data.maxValues.temp_max}</td>
-						<td title="wind speed">{data.meanValues.wind_speed}</td>
+						<td title="wind speed (m/s)">{data.meanValues.wind_speed}</td>
 					</tr>
 				</tbody>
 			</Table>
 
 			<Popup coords={coords} onMouseLeave={removePopup}>
-				<h2>Details</h2>
+				<h3>Details</h3>
 				<div className={emphasisedDetails === 't' ? 'my-emphasised-details' : ''}>
 					<div>Avg temperature: {data.meanValues.temp}<sup>o</sup>C</div>
 					<div>Min feels like: {data.minValues.feels_like}<sup>o</sup>C</div>

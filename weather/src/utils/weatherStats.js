@@ -29,45 +29,6 @@ export default class WeatherStats {
 		}
 		return newData ;
 	}
-
-	// Get data and statistics for the given (approximate) time period
-	getDataForPeriod(tsStart, tsEnd) {
-		const {startPeriodIndex, endPeriodIndex} = this._findNearestStartAndEndPeriod(tsStart, tsEnd) ;
-		return this.calcStats(startPeriodIndex, endPeriodIndex) ;
-	}
-
-	// TODO: Test this function properly
-	_findNearestStartAndEndPeriod(tsStart, tsEnd) {
-		const list = this.data ;
-		let startPeriodIndex = null, endPeriodIndex = null ;
-
-		// Return nulls if period is completely outside the range of the available data
-		if (tsEnd <= list[0].dt || 
-			tsStart >= list[list.length - 1].dt + this.entryTimePeriod) {
-			return {startPeriodIndex, endPeriodIndex} ;
-		}
-
-		// Find nearest start period
-		let i = 0 ;
-		while (list[i].dt < tsStart) i++ ;
-		if (i === 0) startPeriodIndex = 0 ;
-		else {
-			const difToPrev = Math.abs(list[i-1].dt - tsStart) ;
-			const difToCurrent = Math.abs(list[i].dt - tsStart) ;
-			startPeriodIndex = (difToPrev < difToCurrent) ? (i - 1) : i ;
-		}
-
-		// Find nearest end period
-		while (list[i].dt + this.entryTimePeriod < tsEnd) i++ ;
-		if (i === list.length) endPeriodIndex = list.length - 1 ;
-		else {
-			const difToPrev = Math.abs(list[i-1].dt + this.entryTimePeriod - tsEnd) ;
-			const difToCurrent = Math.abs(list[i].dt + this.entryTimePeriod - tsEnd) ;
-			endPeriodIndex = (difToPrev < difToCurrent) ? (i - 1) : i ;
-		}
-		
-		return {startPeriodIndex, endPeriodIndex} ;
-	}
 	
 	// Calculate statistics over the specified data periods
 	calcStats(startPeriodIndex, endPeriodIndex) {
@@ -149,7 +110,7 @@ export default class WeatherStats {
 			modeValues[fieldName] = mode ;
 		}
 
-		return { periods, stats: {minValues, maxValues, meanValues, modeValues, circularMeanValues} } ;
+		return { startPeriodIndex, periods, stats: {minValues, maxValues, meanValues, modeValues, circularMeanValues} } ;
 	}
 
 	getDailyData() {
@@ -170,6 +131,7 @@ export default class WeatherStats {
 			}
 		}
 
+		this.dailyData = dailyStats ;
 		return dailyStats ;
 	}
 }
