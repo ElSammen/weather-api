@@ -12,6 +12,7 @@ import { ApiClient } from './apiClient';
 import MyNavbar from './components/navbar';
 import SoundToggleInput from './components/toggleInput';
 import LocationInput from './components/textInput';
+import MyFooter from './components/footer';
 
 export default function App() {
 	const [data, changeData] = useState(null) ; // Raw weather data
@@ -77,10 +78,7 @@ export default function App() {
 			<SoundManager soundList={soundList} soundId={soundId} soundEnabled={soundEnabled} />
     
 			<footer className="footer text-end p-2 text-secondary">
-				Credits<br />
-				<a href="https://freesound.org/people/abcopen/">abcopen</a> (audio sample)<br />
-				<a href="https://freesound.org/people/TheGloomWorker/">TheGloomWorker</a> (audio sample)<br />
-				<a href="https://freesound.org/people/TJ%20Mothy/">TJ Mothy</a>  (audio sample)<br />
+				<MyFooter />
 			</footer>
 		</div>
   );
