@@ -7,7 +7,8 @@ export class ApiClient {
 	}
 
 	setWeatherLocation(location) {
-		this.getWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=06af2c84a95e6a736fd7bab4b3be279d` ;
+		// Note: Normally for security reasons this API key would be stored on a back-end server instead
+		this.getWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=10e8022ff8312f29d5038f5214aaf866` ;
 	}
 
   getWeather() {
